@@ -1,0 +1,10 @@
+﻿@model BookType
+<h2 style="text-align:center;color:orangered">BookType Edit Page</h2>
+<form method="post" asp-action="edit" asp-controller="booktype" asp-area="Management">
+    <div class="mb-3">
+        <label asp-for="Name">Book Type</label>
+        <input type="text" asp-for="Name" class="form-control" />
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>

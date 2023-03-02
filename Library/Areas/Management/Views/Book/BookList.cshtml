@@ -1,0 +1,36 @@
+﻿@using Library.DTO;
+@model List<BookDTO>
+<h3 style="text-align:center">KitapListeleme Sayfası</h3>
+<a asp-controller="book" asp-action="create" asp-area="Management" class="btn btn-primary" style="float:right">Ekle</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Book Name</th>
+            <th>BookType Name</th>
+            <th>Author Name</th>
+            <th>Aksiyonlar</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (BookDTO item in Model)
+        {
+            int i = 1;
+            <tr>
+                <td>@i</td>
+                <td>@item.BookName</td>
+                <td>@item.BookTypeName</td>
+                <td>@item.AuthorFullName</td>
+
+                <td>
+                    <a asp-controller="book" asp-action="harddelete" class="big-icon" asp-area="Management" asp-route-id="@item.ID"><i class="bi bi-x-octagon"></i></a>
+                    <a asp-controller="book" asp-action="edit" asp-area="Management" class="big-icon left-margin" asp-route-id="@item.ID"><i class="bi bi-pencil-fill"></i></a>
+                </td>
+            </tr>
+            i++;
+
+        }
+
+    </tbody>
+</table>

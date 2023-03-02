@@ -1,0 +1,11 @@
+﻿//one to one
+student-student details
+
+//one to many
+author-book
+booktype-book
+
+//many to many
+student-book
+so
+student----<operation>-------book   

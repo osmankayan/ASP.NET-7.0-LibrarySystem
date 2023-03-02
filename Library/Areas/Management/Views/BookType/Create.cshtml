@@ -1,0 +1,9 @@
+﻿@model BookType
+<h3 style="text-align:center;color:indianred">Book Type Adding Page</h3>
+<form method="post" asp-controller="booktype" asp-action="create" asp-area="Management">
+    <div class="mb-3">
+        <label asp-for="Name">Type</label>
+        <input asp-for="Name" type="text" class="form-control"/>
+    </div>
+    <button type="submit" class="btn btn-primary">Onayla</button>
+</form>

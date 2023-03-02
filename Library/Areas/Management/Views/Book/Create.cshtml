@@ -1,0 +1,23 @@
+﻿@using Library.DTO
+@model (Book book,List<AuthorDTO> authors,List<BookTypeDTO> booktypes)
+<h3>Book Adding Page</h3>
+<form method="post" asp-controller="book" asp-action="create" asp-area="Management">
+    <div class="mb-3">
+        <label asp-for="book.Name" class="form-label">Book Name</label>
+        <input asp-for="book.Name" type="text" class="form-control" />
+        <span asp-validation-for="book.Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="book.PageCount" class="form-label">Page Count</label>
+        <input asp-for="book.PageCount" type="text" class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="book.AuthorID" class="form-label">Author</label>
+        <select asp-for="book.AuthorID" type="text" class="form-control" asp-items="@(new SelectList(Model.authors,"ID","FullName"))" ></select>
+    </div>
+    <div class="mb-3">
+        <label asp-for="book.BookTypeID" class="form-label">Book Type</label>
+        <select asp-for="book.BookTypeID" type="text" class="form-control" asp-items="@(new SelectList(Model.booktypes,"ID","TypeName"))"></select>
+    </div>
+    <button type="submit" class="btn btn-primary">Ekle</button>
+</form>

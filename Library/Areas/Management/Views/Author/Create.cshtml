@@ -1,0 +1,15 @@
+﻿@model Author
+<h2 style="text-align:center;color:orangered">Yazar Ekleme Sayfası</h2>
+<form method="post" asp-action="create" asp-controller="author" asp-area="Management">
+    <div class="mb-3">
+        <label asp-for="FirstName">Yazar Adı</label>
+        <input type="text" asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="LastName">Yazar Soyadı</label>
+        <input type="text" asp-for="LastName" class="form-control" />
+        
+    </div>
+    <button type="submit" class="btn btn-primary">Onayla</button>
+</form>
