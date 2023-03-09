@@ -1,5 +1,5 @@
-﻿using Library.Models;
-using Library.RepositoryPattern.Interfaces;
+﻿using Library.MODEL.Models;
+using Library.BLL.RepositoryPattern.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -21,9 +21,9 @@ namespace Library.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(AppUser user)
         {
-            if (_userRepository.Any(x => x.UserName == user.UserName && user.Status != Enums.DataStatus.Deleted))
+            if (_userRepository.Any(x => x.UserName == user.UserName && user.Status != MODEL.Enums.DataStatus.Deleted))
             {
-                AppUser selectedUser = _userRepository.Default(x => x.UserName == user.UserName && user.Status != Enums.DataStatus.Deleted);
+                AppUser selectedUser = _userRepository.Default(x => x.UserName == user.UserName && user.Status != MODEL.Enums.DataStatus.Deleted);
                 bool check = BCrypt.Net.BCrypt.Verify(user.Password, selectedUser.Password);
                 if (check)
                 {
@@ -36,11 +36,11 @@ namespace Library.Controllers
                     ClaimsIdentity identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     ClaimsPrincipal principal = new ClaimsPrincipal(identity);
                     await HttpContext.SignInAsync(principal);
-                    if (selectedUser.role == Enums.Role.admin)
+                    if (selectedUser.role == MODEL.Enums.Role.admin)
                     {
                         return RedirectToAction("Index", "home", new { area = "Management" });
                     }
-                    else if (selectedUser.role == Enums.Role.user)
+                    else if (selectedUser.role == MODEL.Enums.Role.user)
                     {
                         return RedirectToAction("Index", "home");
                     }

@@ -1,5 +1,5 @@
-﻿using Library.Context;
-using Library.Models;
+﻿using Library.DAL.Context;
+using Library.MODEL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,7 +17,7 @@ namespace Library.Areas.Controllers
         
         public IActionResult AuthorList()
         {
-            List<Author> authors = _db.Authors.Where(x=>x.Status!=Enums.DataStatus.Deleted).ToList();
+            List<Author> authors = _db.Authors.Where(x=>x.Status!= MODEL.Enums.DataStatus.Deleted).ToList();
             return View(authors);
         }
         public IActionResult Create()
@@ -34,21 +34,23 @@ namespace Library.Areas.Controllers
             //{
             //    return View(author);
             //}
+            
             _db.Authors.Add(author);
+            
             _db.SaveChanges();
 
             return RedirectToAction("AuthorList","Author",new {area="Management"});
         }
-        public IActionResult Edit() { return View(); }
-        //public IActionResult Edit(int id) 
-        //{
-        //    Author author=_db.Authors.Find(id)!;
-        //    return View(author);
-        //}
+        //public IActionResult Edit() { return View(); }
+        public IActionResult Edit(int id)
+        {
+            Author author = _db.Authors.Find(id)!;
+            return View(author);
+        }
         [HttpPost]
         public IActionResult Edit(Author author)
         {
-            author.Status = Enums.DataStatus.Updated;
+            author.Status = MODEL.Enums.DataStatus.Updated;
             author.ModifiedDate = DateTime.Now;
             _db.Authors.Update(author);
             _db.SaveChanges();
@@ -57,7 +59,7 @@ namespace Library.Areas.Controllers
         public IActionResult SoftDelete(int id)
         {
             Author author = _db.Authors.Find(id)!;
-            author.Status=Enums.DataStatus.Deleted;
+            author.Status= MODEL.Enums.DataStatus.Deleted;
             author.ModifiedDate= DateTime.Now;
             _db.Authors.Update(author);
             _db.SaveChanges();

@@ -1,4 +1,5 @@
-﻿@model List<Author>
+﻿@using Library.MODEL.Models;
+@model List<Author>
 <h3 style="text-align:center">Yazar Listeleme Sayfası</h3>
 <a asp-controller="author" asp-action="create" asp-area="Management" class="btn btn-primary" style="float:right">Ekle</a>
 <table class="table table-striped">
@@ -19,7 +20,7 @@
                 <td>@i</td>
                 <td>@item.FirstName</td>
                 <td>@item.LastName</td>
-                
+
                 <td>
                     <a asp-controller="author" asp-action="softdelete" asp-area="Management" class="big-icon" asp-route-id="@item.ID"><i class="bi bi-x-octagon"></i></a>
                     <a asp-controller="author" asp-action="edit" asp-area="Management" class="big-icon left-margin" asp-route-id="@item.ID"><i class="bi bi-pencil-fill"></i></a>
@@ -28,6 +29,6 @@
             i++;
 
         }
-        
+
     </tbody>
 </table>

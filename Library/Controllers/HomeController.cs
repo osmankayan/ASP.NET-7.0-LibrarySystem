@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Library.Controllers
+namespace Library.UI.Controllers
 {
     [Authorize(Policy = "userPolicy")]
     public class HomeController : Controller

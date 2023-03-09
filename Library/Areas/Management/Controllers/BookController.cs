@@ -1,7 +1,8 @@
-﻿using Library.Context;
+﻿using Library.DAL.Context;
 using Library.DTO;
-using Library.Models;
-using Library.RepositoryPattern.Interfaces;
+using Library.MODEL.Models;
+using Library.BLL.RepositoryPattern.Interfaces;
+using Library.UnitofWork;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -15,11 +16,13 @@ namespace Library.Areas.Controllers
     public class BookController : Controller
     {
         IBookRepository _bookRepository;
+         IUnitofWork unitofwork;
         MyDbContext _db;
-        public BookController(MyDbContext db,IBookRepository bookRepository)
+        public BookController(MyDbContext db,IBookRepository bookRepository,IUnitofWork unitofwork)
         {
             _db = db;
             _bookRepository = bookRepository;
+            this.unitofwork= unitofwork;
         }
         public IActionResult BookList()
         {
@@ -33,17 +36,18 @@ namespace Library.Areas.Controllers
             //        AuthorLastName = x.Author.LastName
 
             //    }).ToList();
-            List<BookDTO> books =_bookRepository.GetBooks();
+            //List<BookDTO> books = _bookRepository.GetBooks();
+            List<BookDTO> books = unitofwork.Book.GetBooks();
             return View(books);
         }
         public IActionResult Create()
         {
             
             
-            List<AuthorDTO> authors = _db.Authors.Where(x => x.Status != Enums.DataStatus.Deleted)
+            List<AuthorDTO> authors = _db.Authors.Where(x => x.Status != MODEL.Enums.DataStatus.Deleted)
                 .Select(x => new AuthorDTO() { ID = x.ID, FirstName = x.FirstName, LastName = x.LastName }).ToList();
 
-            List<BookTypeDTO> booktypes = _db.BookTypes.Where(x => x.Status != Enums.DataStatus.Deleted)
+            List<BookTypeDTO> booktypes = _db.BookTypes.Where(x => x.Status != MODEL.Enums.DataStatus.Deleted)
                 .Select(x => new BookTypeDTO() { ID = x.ID, TypeName = x.Name }).ToList();
 
             return View((new Book(), authors, booktypes));
@@ -67,16 +71,18 @@ namespace Library.Areas.Controllers
             //}
             //_db.Books.Add(book);
             //_db.SaveChanges();
-            _bookRepository.Add(book);
+
+            unitofwork.Book.Add(book);
+            //_bookRepository.Add(book);
             return RedirectToAction("BookList", "Book", new { area = "Management" });
         }
         public IActionResult Edit(int id)
         {
             Book book = _db.Books.Find(id)!;
-            List<AuthorDTO> authors = _db.Authors.Where(x => x.Status != Enums.DataStatus.Deleted)
+            List<AuthorDTO> authors = _db.Authors.Where(x => x.Status != MODEL.Enums.DataStatus.Deleted)
                  .Select(x => new AuthorDTO() { ID = x.ID, FirstName = x.FirstName, LastName = x.LastName }).ToList();
 
-            List<BookTypeDTO> booktypes = _db.BookTypes.Where(x => x.Status != Enums.DataStatus.Deleted)
+            List<BookTypeDTO> booktypes = _db.BookTypes.Where(x => x.Status != MODEL.Enums.DataStatus.Deleted)
                 .Select(x => new BookTypeDTO() { ID = x.ID, TypeName = x.Name }).ToList();
 
             return View((book, authors, booktypes));
@@ -86,7 +92,7 @@ namespace Library.Areas.Controllers
         public IActionResult Edit([Bind(Prefix = "Item1")] Book book)
         {
 
-            book.Status = Enums.DataStatus.Updated;
+            book.Status = MODEL.Enums.DataStatus.Updated;
             book.ModifiedDate = DateTime.Now;
             _db.Books.Update(book);
             _db.SaveChanges();

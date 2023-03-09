@@ -1,13 +1,16 @@
 using FluentValidation.AspNetCore;
-using Library.Context;
+using Library.DAL.Context;
 using Library.Initializer;
 using Library.Models;
-using Library.RepositoryPattern.Base;
-using Library.RepositoryPattern.Concrete;
-using Library.RepositoryPattern.Interfaces;
+using Library.BLL.RepositoryPattern.Base;
+using Library.BLL.RepositoryPattern.Concrete;
+using Library.BLL.RepositoryPattern.Interfaces;
+using Library.UnitofWork;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using System.Net.NetworkInformation;
 using System.Reflection;
+using Library.MODEL.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +21,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<MyDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Mssql")));
 builder.Services.AddScoped<IRepository<BookType>,Repository<BookType>>();
 builder.Services.AddScoped<IRepository<AppUser>,Repository<AppUser>>();
-builder.Services.AddScoped<IBookRepository,BookRepository>();
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddTransient<IUnitofWork,EfUnitofWork>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => 
                                                                                      {
                                                                                          options.LoginPath = "/auth/login";
@@ -38,13 +42,13 @@ builder.Services.AddAuthorization(options =>
 
 var app = builder.Build();
 //migrationu direk ekleme
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
+//using (var scope = app.Services.CreateScope())
+//{
+//    var services = scope.ServiceProvider;
 
-    var context = services.GetRequiredService<MyDbContext>();
-    context.Database.Migrate();
-}
+//    var context = services.GetRequiredService<MyDbContext>();
+//    context.Database.Migrate();
+//}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

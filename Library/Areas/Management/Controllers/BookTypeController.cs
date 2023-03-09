@@ -1,6 +1,6 @@
-﻿using Library.Context;
-using Library.Models;
-using Library.RepositoryPattern.Interfaces;
+﻿using Library.DAL.Context;
+using Library.MODEL.Models;
+using Library.BLL.RepositoryPattern.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
