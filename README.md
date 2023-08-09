@@ -1,5 +1,5 @@
 # -------------ASP.NET-7.0-MVC-LibrarySystem------------
-## Video Demo:[Library System - Youtube](https://www.youtube.com/watch?v=ypwG2BNJoRs)
+## Video Demo:[Library System - Youtube](https://www.youtube.com/watch?v=ypwG2BNJoRs](https://www.youtube.com/watch?v=1iMGR2YCda0)
 ### Projede kitap türü, yazar ve kitap olmak üzere 3 adet sayfa vardır. Kitap sayfasında, kitap türü ve yazar kısmında eklediğimiz dataları seçerek kitabı ekleyebiliriz,eklediğimiz datayı güncelleyebiliriz veya silebiliriz.
 
 ![1](https://github.com/osmankayan/ASP.NET-7.0-MVC-LibrarySystem/assets/96666731/edde3750-7cc1-4c7f-b246-aff5d0f9f6ce)
